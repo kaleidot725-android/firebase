@@ -26,10 +26,16 @@ class TaskRepositoryImpl : TaskRepository {
     }
 
     override suspend fun fetchTask(afterTime: Long, limit: Long): List<Task> {
-        TODO("Not yet implemented")
+        try {
+            return database.collection(COLLECTION_PATH).whereGreaterThanOrEqualTo("time", afterTime).get().await().map {
+                it.data.toTask()
+            }
+        } catch (e: Exception) {
+            return listOf()
+        }
     }
 
     companion object {
-        private val COLLECTION_PATH = "tasks"
+        private const val COLLECTION_PATH = "tasks"
     }
 }
