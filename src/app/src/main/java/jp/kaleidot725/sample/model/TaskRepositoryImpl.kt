@@ -9,7 +9,7 @@ class TaskRepositoryImpl : TaskRepository {
 
     override suspend fun add(task: Task): Boolean {
         try {
-            database.collection(COLLECTION_PATH).document(task.id).(task.toHashMap()).await()
+            database.collection(COLLECTION_PATH).document(task.id).update(task.toHashMap()).await()
             return true
         } catch (e : Exception) {
             return false
@@ -18,7 +18,7 @@ class TaskRepositoryImpl : TaskRepository {
 
     override suspend fun delete(task: Task) : Boolean {
         try {
-            database.collection(COLLECTION_PATH).(task.toHashMap()).await()
+            database.collection(COLLECTION_PATH).document(task.id).delete().await()
             return true
         } catch (e: Exception) {
             return false
