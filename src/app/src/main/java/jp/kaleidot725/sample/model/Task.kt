@@ -1,6 +1,13 @@
 package jp.kaleidot725.sample.model
 
-data class Task(val id: String, val time: Long, val name: String, val checked: Boolean)
+import java.util.*
+import kotlin.collections.HashMap
+
+data class Task(val id: String, val time: Long, val name: String, val checked: Boolean) {
+    companion object {
+        fun generateId() : String = UUID.randomUUID().toString()
+    }
+}
 
 fun Task.toHashMap(): HashMap<String, *> {
     return hashMapOf(
