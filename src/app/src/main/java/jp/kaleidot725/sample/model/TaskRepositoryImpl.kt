@@ -2,7 +2,6 @@ package jp.kaleidot725.sample.model
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 
 class TaskRepositoryImpl : TaskRepository {
     private val database get() = FirebaseFirestore.getInstance()
@@ -11,12 +10,12 @@ class TaskRepositoryImpl : TaskRepository {
         try {
             database.collection(COLLECTION_PATH).document(task.id).update(task.toHashMap()).await()
             return true
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             return false
         }
     }
 
-    override suspend fun delete(task: Task) : Boolean {
+    override suspend fun delete(task: Task): Boolean {
         try {
             database.collection(COLLECTION_PATH).document(task.id).delete().await()
             return true
@@ -25,9 +24,9 @@ class TaskRepositoryImpl : TaskRepository {
         }
     }
 
-    override suspend fun fetchTask(afterTime: Long, limit: Long): List<Task> {
+    override suspend fun fetchTask(limit: Long): List<Task> {
         try {
-            return database.collection(COLLECTION_PATH).whereGreaterThanOrEqualTo("time", afterTime).get().await().map {
+            return database.collection(COLLECTION_PATH).limit(limit).get().await().map {
                 it.data.toTask()
             }
         } catch (e: Exception) {
