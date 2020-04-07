@@ -17,7 +17,7 @@ fun Task.toHashMap(): HashMap<String, *> {
     )
 }
 
-fun Map<String, *>.toTask() : Task {
+fun Map<String, Any>.toTask() : Task {
     val id = this["id"] as String
     val time = this["time"] as Long
     val name = this["name"] as String
