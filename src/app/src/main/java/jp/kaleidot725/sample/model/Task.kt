@@ -1,15 +1,14 @@
 package jp.kaleidot725.sample.model
 
 import java.util.*
-import kotlin.collections.HashMap
 
 data class Task(val id: String, val time: Long, val name: String) {
     companion object {
-        fun generateId() : String = UUID.randomUUID().toString()
+        fun create(name: String): Task = Task(UUID.randomUUID().toString(), Date().time, name)
     }
 }
 
-fun Task.toHashMap(): HashMap<String, *> {
+fun Task.toMap(): Map<String, *> {
     return hashMapOf(
         "id" to this.id,
         "time" to this.time,
@@ -17,7 +16,7 @@ fun Task.toHashMap(): HashMap<String, *> {
     )
 }
 
-fun Map<String, Any>.toTask() : Task {
+fun Map<String, Any>.toTask(): Task {
     val id = this["id"] as String
     val time = this["time"] as Long
     val name = this["name"] as String

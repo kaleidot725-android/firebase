@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import jp.kaleidot725.sample.model.Task
 import jp.kaleidot725.sample.model.TaskRepository
-import jp.kaleidot725.sample.model.TaskRepositoryImpl
 import kotlinx.coroutines.launch
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private val repository: TaskRepository = TaskRepositoryImpl()
+    private val repository: TaskRepository = TaskRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +19,9 @@ class MainActivity : AppCompatActivity() {
             println("①現在のタスク一覧を取得する ▶ " + repository.fetchTask(100))
 
             // ②新しいタスクを追加する
-            val date = Date()
-            val newTask = Task(date.toString(), date.time, "New Task")
+            val newTask = Task.create("New Task")
             repository.add(newTask)
-            println("①新しいタスクを追加する ▶ " + repository.fetchTask(100))
+            println("②新しいタスクを追加する ▶ " + repository.fetchTask(100))
 
             // ③新しく追加したタスクを削除する
             repository.delete(newTask)
